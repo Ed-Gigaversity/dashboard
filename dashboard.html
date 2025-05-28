@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <input type="text" class="search-bar" placeholder="Search dashboard...">
+            </div>
+            <div class="user-profile">
+                <div class="avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <h2>📊 DashBoard</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" onclick="showSection('analytics', this)">
+                        <span class="nav-icon">📈</span>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('users', this)">
+                        <span class="nav-icon">👥</span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('sales', this)">
+                        <span class="nav-icon">💰</span>
+                        <span>Sales</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('products', this)">
+                        <span class="nav-icon">📦</span>
+                        <span>Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('reports', this)">
+                        <span class="nav-icon">📊</span>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('settings', this)">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Analytics Section -->
+            <div class="content-section active" id="analytics-section">
+                <div class="main-header">
+                    <h1>Analytics Dashboard</h1>
+                    <p>Welcome back! Here's what's happening with your business today.</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="animateCard(this)">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Revenue</span>
+                            <div class="stat-icon" style="background: linear-gradient(45deg, #10b981, #059669);">💰</div>
+                        </div>
+                        <div class="stat-value" id="revenue">$0</div>
+                        <div class="stat-change positive">
+                            <span>↗️</span>
+                            <span>+12.5% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" onclick="animateCard(this)">
+                        <div class="stat-header">
+                            <span class="stat-title">New Users</span>
+                            <div class="stat-icon" style="background: linear-gradient(45deg, #3b82f6, #1d4ed8);">👥</div>
+                        </div>
+                        <div class="stat-value" id="users">0</div>
+                        <div class="stat-change positive">
+                            <span>↗️</span>
+                            <span>+8.2% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" onclick="animateCard(this)">
+                        <div class="stat-header">
+                            <span class="stat-title">Orders</span>
+                            <div class="stat-icon" style="background: linear-gradient(45deg, #f59e0b, #d97706);">📦</div>
+                        </div>
+                        <div class="stat-value" id="orders">0</div>
+                        <div class="stat-change negative">
+                            <span>↘️</span>
+                            <span>-2.1% from last month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" onclick="animateCard(this)">
+                        <div class="stat-header">
+                            <span class="stat-title">Conversion Rate</span>
+                            <div class="stat-icon" style="background: linear-gradient(45deg, #8b5cf6, #7c3aed);">📈</div>
+                        </div>
+                        <div class="stat-value" id="conversion">0%</div>
+                        <div class="stat-change positive">
+                            <span>↗️</span>
+                            <span>+5.4% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Chart Card -->
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sales Overview</h3>
+                            <a href="#" class="card-action">View Details</a>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Activity Card -->
+                    <div class="activity-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                            <a href="#" class="card-action">View All</a>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <!-- Activities will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <div class="card-header">
+                        <h3 class="card-title">Goals Progress</h3>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Monthly Sales Target</span>
+                            <span class="progress-percentage">78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="background: linear-gradient(45deg, #10b981, #059669); width: 0%;" data-width="78"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Customer Acquisition</span>
+                            <span class="progress-percentage">92%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="background: linear-gradient(45deg, #3b82f6, #1d4ed8); width: 0%;" data-width="92"></div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Revenue Goal</span>
+                            <span class="progress-percentage">65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="background: linear-gradient(45deg, #f59e0b, #d97706); width: 0%;" data-width="65"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div class="content-section" id="users-section">
+                <div class="main-header">
+                    <h1>User Management</h1>
+                    <p>Manage your users and their permissions.</p>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">1,247</div>
+                        <div class="mini-stat-label">Total Users</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">89</div>
+                        <div class="mini-stat-label">Active Today</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">156</div>
+                        <div class="mini-stat-label">New This Month</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">4.2%</div>
+                        <div class="mini-stat-label">Growth Rate</div>
+                    </div>
+                </div>
+                
+                <div class="section-controls">
+                    <button class="btn-primary">Add New User</button>
+                    <input type="text" class="search-input" placeholder="Search users...">
+                    <select class="filter-select">
+                        <option>All Roles</option>
+                        <option>Admin</option>
+                        <option>Editor</option>
+                        <option>User</option>
+                    </select>
+                    <button class="btn-secondary">Export CSV</button>
+                </div>
+                
+                <div class="table-card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sales Section -->
+            <div class="content-section" id="sales-section">
+                <div class="main-header">
+                    <h1>Sales Overview</h1>
+                    <p>Track your sales performance and revenue.</p>
+                </div>
+                
+                <div class="sales-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(45deg, #10b981, #059669);">💰</div>
+                        <h3>Total Sales</h3>
+                        <div class="stat-value">$485,250</div>
+                        <div class="stat-change positive">+15.3% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(45deg, #3b82f6, #1d4ed8);">📊</div>
+                        <h3>Transactions</h3>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-change positive">+8.7% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(45deg, #f59e0b, #d97706);">📈</div>
+                        <h3>Avg. Order</h3>
+                        <div class="stat-value">$170.40</div>
+                        <div class="stat-change negative">-2.1% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(45deg, #8b5cf6, #7c3aed);">🎯</div>
+                        <h3>Conversion</h3>
+                        <div class="stat-value">4.2%</div>
+                        <div class="stat-change positive">+0.8% this month</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3>Sales Trend</h3>
+                            <select class="filter-select">
+                                <option>Last 12 Months</option>
+                                <option>Last 6 Months</option>
+                                <option>Last 3 Months</option>
+                            </select>
+                        </div>
+                        <canvas id="salesTrendChart" style="height: 300px;"></canvas>
+                    </div>
+                    
+                    <div class="activity-card">
+                        <div class="card-header">
+                            <h3>Top Products</h3>
+                            <a href="#" class="card-action">View All</a>
+                        </div>
+                        <div class="top-products" id="topProducts">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sales-table-card">
+                    <div class="card-header">
+                        <h3>Recent Orders</h3>
+                        <button class="btn-secondary">View All Orders</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="content-section" id="products-section">
+                <div class="main-header">
+                    <h1>Product Catalog</h1>
+                    <p>Manage your product inventory and pricing.</p>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">248</div>
+                        <div class="mini-stat-label">Total Products</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">23</div>
+                        <div class="mini-stat-label">Low Stock</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">12</div>
+                        <div class="mini-stat-label">Out of Stock</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-value">8</div>
+                        <div class="mini-stat-label">Categories</div>
+                    </div>
+                </div>
+                
+                <div class="section-controls">
+                    <button class="btn-primary">Add Product</button>
+                    <input type="text" class="search-input" placeholder="Search products...">
+                    <select class="filter-select">
+                        <option>All Categories</option>
+                        <option>Electronics</option>
+                        <option>Clothing</option>
+                        <option>Books</option>
+                        <option>Home & Garden</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>All Stock</option>
+                        <option>In Stock</option>
+                        <option>Low Stock</option>
+                        <option>Out of Stock</option>
+                    </select>
+                </div>
+                
+                <div class="products-grid" id="products-grid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="content-section" id="reports-section">
+                <div class="main-header">
+                    <h1>Reports & Analytics</h1>
+                    <p>Generate and view detailed business reports.</p>
+                </div>
+                
+                <div class="reports-summary">
+                    <div class="summary-card">
+                        <div class="summary-icon">📈</div>
+                        <div class="summary-content">
+                            <h4>Monthly Revenue</h4>
+                            <div class="summary-value">$486,250</div>
+                            <div class="summary-change positive">+12.5% vs last month</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">🛒</div>
+                        <div class="summary-content">
+                            <h4>Total Orders</h4>
+                            <div class="summary-value">2,847</div>
+                            <div class="summary-change positive">+8.3% vs last month</div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon">👥</div>
+                        <div class="summary-content">
+                            <h4>New Customers</h4>
+                            <div class="summary-value">156</div>
+                            <div class="summary-change positive">+18.2% vs last month</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">📊</div>
+                        <h3>Sales Report</h3>
+                        <p>Detailed sales analysis for the current period</p>
+                        <div class="report-details">
+                            <small>Last generated: 2 hours ago</small>
+                            <small>Format: PDF, Excel</small>
+                        </div>
+                        <button class="btn-secondary">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">👥</div>
+                        <h3>User Activity</h3>
+                        <p>User engagement and activity metrics</p>
+                        <div class="report-details">
+                            <small>Last generated: 1 day ago</small>
+                            <small>Format: PDF, CSV</small>
+                        </div>
+                        <button class="btn-secondary">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">📈</div>
+                        <h3>Revenue Analysis</h3>
+                        <p>Monthly and yearly revenue breakdown</p>
+                        <div class="report-details">
+                            <small>Last generated: 3 hours ago</small>
+                            <small>Format: PDF, Excel</small>
+                        </div>
+                        <button class="btn-secondary">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">📦</div>
+                        <h3>Inventory Report</h3>
+                        <p>Stock levels and inventory management</p>
+                        <div class="report-details">
+                            <small>Last generated: 6 hours ago</small>
+                            <small>Format: CSV, Excel</small>
+                        </div>
+                        <button class="btn-secondary">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">🎯</div>
+                        <h3>Marketing Performance</h3>
+                        <p>Campaign effectiveness and ROI analysis</p>
+                        <div class="report-details">
+                            <small>Last generated: 1 day ago</small>
+                            <small>Format: PDF</small>
+                        </div>
+                        <button class="btn-secondary">Generate</button>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon">💰</div>
+                        <h3>Financial Summary</h3>
+                        <p>Comprehensive financial overview and trends</p>
+                        <div class="report-details">
+                            <small>Last generated: 4 hours ago</small>
+                            <small>Format: PDF, Excel</small>
+                        </div>
+                        <button class="btn-secondary">Generate</button>
+                    </div>
+                </div>
+                
+                <div class="scheduled-reports">
+                    <div class="card-header">
+                        <h3>Scheduled Reports</h3>
+                        <button class="btn-primary">New Schedule</button>
+                    </div>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <div class="schedule-info">
+                                <h4>Weekly Sales Summary</h4>
+                                <p>Every Monday at 9:00 AM</p>
+                            </div>
+                            <div class="schedule-actions">
+                                <button class="btn-secondary">Edit</button>
+                                <button class="btn-secondary">Pause</button>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <div class="schedule-info">
+                                <h4>Monthly Revenue Report</h4>
+                                <p>1st of every month at 8:00 AM</p>
+                            </div>
+                            <div class="schedule-actions">
+                                <button class="btn-secondary">Edit</button>
+                                <button class="btn-secondary">Pause</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="content-section" id="settings-section">
+                <div class="main-header">
+                    <h1>Settings</h1>
+                    <p>Configure your dashboard and account preferences.</p>
+                </div>
+                
+                <div class="settings-tabs">
+                    <button class="tab-btn active" onclick="showSettingsTab('general')">General</button>
+                    <button class="tab-btn" onclick="showSettingsTab('security')">Security</button>
+                    <button class="tab-btn" onclick="showSettingsTab('notifications')">Notifications</button>
+                    <button class="tab-btn" onclick="showSettingsTab('billing')">Billing</button>
+                </div>
+                
+                <div class="settings-content">
+                    <div class="settings-tab active" id="general-tab">
+                        <div class="settings-section">
+                            <h4>Appearance</h4>
+                            <div class="setting-group">
+                                <label>Theme</label>
+                                <select class="setting-input">
+                                    <option>Light</option>
+                                    <option>Dark</option>
+                                    <option>Auto</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label>Language</label>
+                                <select class="setting-input">
+                                    <option>English</option>
+                                    <option>Spanish</option>
+                                    <option>French</option>
+                                    <option>German</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label>Time Zone</label>
+                                <select class="setting-input">
+                                    <option>UTC-5 (EST)</option>
+                                    <option>UTC-8 (PST)</option>
+                                    <option>UTC+1 (CET)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Dashboard Preferences</h4>
+                            <div class="setting-group">
+                                <label>Default Currency</label>
+                                <select class="setting-input">
+                                    <option>USD ($)</option>
+                                    <option>EUR (€)</option>
+                                    <option>GBP (£)</option>
+                                    <option>JPY (¥)</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label>Date Format</label>
+                                <select class="setting-input">
+                                    <option>MM/DD/YYYY</option>
+                                    <option>DD/MM/YYYY</option>
+                                    <option>YYYY-MM-DD</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label>Show Tutorial Tips</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-tab" id="security-tab">
+                        <div class="settings-section">
+                            <h4>Account Security</h4>
+                            <div class="setting-group">
+                                <label>Two-Factor Authentication</label>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-group">
+                                <label>Session Timeout</label>
+                                <select class="setting-input">
+                                    <option>15 minutes</option>
+                                    <option>30 minutes</option>
+                                    <option>1 hour</option>
+                                    <option>4 hours</option>
+                                    <option>Never</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label>Login Notifications</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Password & Access</h4>
+                            <button class="btn-primary">Change Password</button>
+                            <button class="btn-secondary" style="margin-left: 1rem;">Download Recovery Codes</button>
+                            <div class="security-info">
+                                <p><strong>Last password change:</strong> 45 days ago</p>
+                                <p><strong>Active sessions:</strong> 3 devices</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-tab" id="notifications-tab">
+                        <div class="settings-section">
+                            <h4>Email Notifications</h4>
+                            <div class="setting-group">
+                                <label>Order Notifications</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-group">
+                                <label>Weekly Reports</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-group">
+                                <label>Marketing Updates</label>
+                                <label class="toggle">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Push Notifications</h4>
+                            <div class="setting-group">
+                                <label>Browser Notifications</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-group">
+                                <label>Low Stock Alerts</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-group">
+                                <label>System Maintenance</label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-tab" id="billing-tab">
+                        <div class="settings-section">
+                            <h4>Current Plan</h4>
+                            <div class="plan-info">
+                                <div class="plan-details">
+                                    <h3>Professional Plan</h3>
+                                    <p>$49/month • Billed annually</p>
+                                    <p>Next billing: January 15, 2025</p>
+                                </div>
+                                <button class="btn-primary">Upgrade Plan</button>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Payment Method</h4>
+                            <div class="payment-info">
+                                <div class="payment-card">
+                                    <div class="card-info">
+                                        <span>💳</span>
+                                        <span>•••• •••• •••• 4242</span>
+                                        <span>Expires 12/27</span>
+                                    </div>
+                                    <button class="btn-secondary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>Billing History</h4>
+                            <div class="billing-history">
+                                <div class="billing-item">
+                                    <span>Professional Plan</span>
+                                    <span>Dec 15, 2024</span>
+                                    <span>$49.00</span>
+                                    <button class="btn-secondary">Download</button>
+                                </div>
+                                <div class="billing-item">
+                                    <span>Professional Plan</span>
+                                    <span>Nov 15, 2024</span>
+                                    <span>$49.00</span>
+                                    <button class="btn-secondary">Download</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
